@@ -55,9 +55,6 @@ class NotificationsFragment : Fragment(), SensorEventListener {
 
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
-
-
-
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
         root = inflater.inflate(R.layout.fragment_notifications, container, false)
