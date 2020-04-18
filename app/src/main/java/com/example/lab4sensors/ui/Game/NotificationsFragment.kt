@@ -1,4 +1,7 @@
 package com.example.lab4sensors.ui.Game
+
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -7,11 +10,14 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -44,9 +50,9 @@ class NotificationsFragment : Fragment(), SensorEventListener {
     private var root: View? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         sensorManager =
             activity!!.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -56,7 +62,7 @@ class NotificationsFragment : Fragment(), SensorEventListener {
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
         notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
+            ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
         root = inflater.inflate(R.layout.fragment_notifications, container, false)
         ball = root?.findViewById(R.id.imageView)
         feed = root?.findViewById(R.id.textView)
@@ -106,10 +112,10 @@ class NotificationsFragment : Fragment(), SensorEventListener {
             pristine = false
         }
         if (event != null && game) {
-                yAcceleration = event.values[0]
-                xAcceleration = event.values[1]
-                updateBall();
-            }
+            yAcceleration = event.values[0]
+            xAcceleration = event.values[1]
+            updateBall();
+        }
     }
 
     private fun updateBall (){
@@ -118,6 +124,9 @@ class NotificationsFragment : Fragment(), SensorEventListener {
 
         xPosition += xVelocity * frameTime
         yPosition += yVelocity * frameTime
+
+        Log.i("BENIZ", xPosition.toString())
+        Log.i("BENIZ", yPosition.toString())
 
         if (xPosition > xmax){
             xPosition = xmax
@@ -129,7 +138,7 @@ class NotificationsFragment : Fragment(), SensorEventListener {
             lost()
         }
         if (yPosition > ymax){
-            yPosition = ymax - 50f
+            yPosition = ymax
             yVelocity = 0f
             lost()
         } else if ( yPosition < 0f){
@@ -138,8 +147,10 @@ class NotificationsFragment : Fragment(), SensorEventListener {
             lost()
         }
 
-        ball?.x = xPosition
-        ball?.y = yPosition
+        //ball?.clearAnimation()
+        //ball?.y?.let { ball?.x?.let { it1 -> animateTransition(it1, it, xPosition, yPosition) } }
+         ball?.x = xPosition
+         ball?.y = yPosition
     }
 
     private fun lost(){
@@ -159,5 +170,13 @@ class NotificationsFragment : Fragment(), SensorEventListener {
         button?.visibility = INVISIBLE
     }
 
-    // todo animate
+    /*@SuppressLint("ObjectAnimatorBinding")
+    private fun animateTransition(xStart: Float, yStart:Float, xFin: Float, yFin: Float){
+        ObjectAnimator.ofFloat(ball, "translationX", xStart, xFin).apply {
+            duration = 300
+            start()
+        }
+    }*/
+
+
 }
