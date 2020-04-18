@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lab4Sensors</string>
+    <string name="sensor_list">Sensor list</string>
+    <string name="game">Game</string>
+    <string name="gps">GPS app</string>
+    <string name="one_more_try">Try again</string>
+</resources>
